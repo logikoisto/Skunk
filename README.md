@@ -1,2 +1,3 @@
 # Skunk
-Event-Driven network framework implemented by CXX
+
+Reactor pattern network framework
