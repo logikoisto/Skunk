@@ -2,7 +2,11 @@
 #include <stdint.h>
 #include <string>
 #include "gtest/gtest.h"
-#include "buffer.h"
+#include "skunk/buffer.h"
+
+#ifndef DEBUG
+#define DEBUG
+#endif // !DEBUG
 
 // test the buffer constructor
 TEST(BufferTest, BufferBuild){
@@ -177,6 +181,9 @@ TEST(BufferTest, WrithWithWhence){
 
 }
 
+TEST(BufferTest, WrithWithIovec){
+
+}
 
 
 int main(int argc, char *argv[]){

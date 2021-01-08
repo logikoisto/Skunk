@@ -1,9 +1,11 @@
 #ifndef __SKUNK_BUFFER_H__
 #define __SKUNK_BUFFER_H__
 
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
 #include <sys/types.h>
-#include <stdint.h>
-#include <string.h>
+#include <sys/uio.h>
 
 namespace zoo
 {
@@ -99,6 +101,13 @@ namespace zoo
         }
 
         /**
+         * Extract buffer from the undelying buffer in io vector 
+         * input vectors and will create many vectors by this function 
+         * also return the vector size 
+         */
+        size_t Read(size_t len, iovec* vectors, size_t&  vector_size);
+
+        /**
          * Buffer write overload functors 
          */
         void Write(Buffer& buffer);
@@ -130,14 +139,19 @@ namespace zoo
           Write(offset, val, strlen(val));
         }
 
+        /**
+         * write from the iovec 
+         */
+        void Write(iovec* vectors, size_t&  vector_size);
+
       private:
-        unsigned char* _buf; //underlying buffer  
-        size_t _capcity; // capcity of this Buffer
-        size_t _length; // data length in the Buffer 
+        unsigned char* buf_; //underlying buffer  
+        size_t capcity_; // capcity of this Buffer
+        size_t length_; // data length in the Buffer 
 
         //RingBuffer structure specifics 
-        unsigned char* _read_ptr; // read pointer
-        unsigned char* _write_ptr; // write pointer 
+        off_t read_ptr_; // read pointer
+        off_t write_ptr_; // write pointer 
 
         //private functions
 
@@ -145,9 +159,32 @@ namespace zoo
          * fit the size when the capcity changed 
          */
         void fit(size_t len);
+
+        //debug or test functions 
+
+#ifdef DEBUG
+      public:
+        unsigned char * GetUnderlyingBuffer(){
+          return buf_;
+        }
+        void SetUnderlyingBuffer(unsigned char * buf){
+          buf_ = buf;
+        }
+        void DebugFitFunc(size_t len){
+          fit(len);
+        }
+        off_t GetReadPointer(){
+          return read_ptr_;
+        }
+        off_t GetWritePointer(){
+          return write_ptr_;
+        }
+#endif // DEBUG
+
     };
 
     extern const Buffer kNullBuffer;
+
 
   } // namespace skunk
   
