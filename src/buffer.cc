@@ -62,15 +62,15 @@ size_t zoo::skunk::Buffer::Capcity() const{
   return capcity_;
 }
 
-void zoo::skunk::Buffer::Seek(off_t offset, zoo::skunk::Buffer::Whence whence){
+void zoo::skunk::Buffer::Seek(off_t offset, Whence whence){
   switch(whence){
-    case zoo::skunk::Buffer::Whence::Start: {
+    case Whence::Start: {
 
     }
-    case zoo::skunk::Buffer::Whence::Current: {
+    case Whence::Current: {
 
     }
-    case zoo::skunk::Buffer::Whence::End: {
+    case Whence::End: {
 
     }
   }
@@ -117,7 +117,7 @@ void zoo::skunk::Buffer::Write(off_t offset, const void* src, size_t len){
 
 }
 
-void zoo::skunk::Buffer::Write(zoo::skunk::Buffer::Whence whence, const void* src, size_t len){
+void zoo::skunk::Buffer::Write(Whence whence, const void* src, size_t len){
 
 }
 

@@ -128,7 +128,7 @@ namespace zoo
 
         template<class T>
         void Write(off_t offset, const T& val){
-          Write(offset, &val);
+          Write(offset, &val, sizeof(val));
         }
 
         void Write(const char* const val){
