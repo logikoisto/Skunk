@@ -177,14 +177,18 @@ TEST(BufferTest, ReadAfterSeek){
 }
 
 //Write with the whence
-TEST(BufferTest, WrithWithWhence){
+TEST(BufferTest, WriteWithWhence){
+  zoo::skunk::Buffer buffer;
 
 }
 
-TEST(BufferTest, WrithWithIovec){
+TEST(BufferTest, WriteWithIovec){
 
 }
 
+TEST(BufferTest, ReadWithIovec){
+
+}
 
 int main(int argc, char *argv[]){
   testing::InitGoogleTest(&argc, argv);

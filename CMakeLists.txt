@@ -8,6 +8,7 @@ set(CMAKE_C_FLAGS "-O2 -g -Wall -pthread")
 
 #options
 option(SKUNK_UNIT_TEST "Build with Skunk unit test " ON)
+option(SKUNK_EXAMPLE_BUILD "Build Skunk examples" ON)
 
 # add google test lib 
 add_subdirectory(third_party/googletest)
@@ -23,13 +24,13 @@ add_library(skunk STATIC
 set_target_properties(skunk PROPERTIES OUTPUT_NAME "skunk")
 
 
-#Skunk test function 
+#Skunk test build function 
 function(skunk_test test_name)
   if(SKUNK_UNIT_TEST)
     message(STATUS "Build skunk uinit test: ${test_name}")
     set(SRCS)
     
-    if(${ARGC} EQUAL 0)
+    if(${ARGC} EQUAL 1)
       message(FATAL_ERROR "Build skunk uinit test: ${test_name} failed because of the SRC list empty")
     else()
       # loop find the unit test source file in the test dir 
@@ -56,3 +57,20 @@ skunk_test(buffer_test test/buffer_test.cc)
 # TODO: test the skunk server logic 
 # Test Skunk Client 
 # TODO: test the skunk client logic 
+
+#Skunk example build function 
+function(skunk_eample example_executable)
+  if(SKUNK_EXAMPLE_BUILD)
+    message(STATUS "Build skunk example: ${example_executable}")
+  endif()
+endfunction(skunk_eample)
+
+#Example echo
+skunk_eample(echo_client example/echo/client.cc)
+skunk_eample(echo_server example/echo/server.cc)
+
+#Example im 
+
+#Example socks5
+
+#Example fstcgi 
