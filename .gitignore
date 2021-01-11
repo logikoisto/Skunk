@@ -32,3 +32,6 @@
 *.app
 .devcontainer
 .idea
+.build
+build
+.vscode
