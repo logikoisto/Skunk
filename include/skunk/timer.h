@@ -1,20 +1,14 @@
 #ifndef __SKUNK_TIMER_H__
 #define __SKUNK_TIMER_H__
 
-namespace zoo
-{
-  namespace skunk
-  {
-    
-    class Duration {
+namespace zoo {
+namespace skunk {
 
-    };
+class Duration {};
 
-    class Timer {
+class Timer {};
+}  // namespace skunk
 
-    };
-  } // namespace skunk
-  
-} // namespace zoo
+}  // namespace zoo
 
-#endif // !__SKUNK_TIMER_H__
+#endif  // !__SKUNK_TIMER_H__
