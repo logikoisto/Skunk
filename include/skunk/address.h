@@ -24,6 +24,7 @@ class IpAddress final {
   std::string ToString() const;
   const struct sockaddr *GetSockAddr() const;
   struct sockaddr *GetSockAddr();
+  std::string toString() const;
 
  private:
   /**

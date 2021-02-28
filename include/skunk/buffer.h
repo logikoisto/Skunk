@@ -7,6 +7,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <memory>
 
 namespace zoo {
 namespace skunk {
@@ -16,6 +17,7 @@ namespace skunk {
  */
 class Buffer {
  public:
+  using Ptr = std::shared_ptr<Buffer>;
   /**
    * Whence move behaviors used by Seek
    */

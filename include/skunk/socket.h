@@ -16,7 +16,8 @@ socket 是一个封装底层网络套接字的类
 class Socket {
  public:
   using Ptr = std::shared_ptr<Socket>;
-  explicit Socket(int fd) : fd_(fd){};
+  explicit Socket(int32_t fd) : fd_(fd){};
+  ~Socket();
   /* 绑定地址 创建一个 socket对象 此时socket对象 默认为客户端socket*/
   void Bind(const IpAddress& local);
   /* listen 当前socket对象 会设置其为服务端socket对象 */
@@ -55,7 +56,7 @@ class Socket {
 
  private:
   /* 底层socket的文件句柄 */
-  int32_t fd_;
+  const int32_t fd_;
 };
 }  // namespace skunk
 }  // namespace zoo
