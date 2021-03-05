@@ -1,4 +1,4 @@
-#include "skunk/buffer.h"
+#include "buffer.h"
 
 #include <stdlib.h>
 

@@ -25,7 +25,7 @@ class Socket {
   /* socket阻塞在peer地址 直到返回代表新建连接的文件句柄 */
   int32_t Accept(IpAddress& peer);
   /* 客户端socket调用此函数完成与远程服务端的握手 */
-  int32_t Connect(IpAddress& server_addr);
+  int32_t Connect(const IpAddress& server_addr);
   /* 返回当前socket的地址 */
   int32_t Fd() const;
 

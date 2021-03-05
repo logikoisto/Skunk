@@ -1,4 +1,4 @@
-#include "skunk/poller.h"
+#include "poller.h"
 
 #include <fcntl.h>
 #include <sys/epoll.h>
@@ -6,8 +6,8 @@
 
 #include <memory>
 
-#include "skunk/channel.h"
-#include "skunk/event_loop.h"
+#include "channel.h"
+#include "event_loop.h"
 #include "util/condition.h"
 #include "util/mutex.h"
 namespace zoo {

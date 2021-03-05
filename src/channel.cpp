@@ -1,6 +1,6 @@
 
 
-#include "skunk/channel.h"
+#include "channel.h"
 
 #include <errno.h>
 #include <sys/epoll.h>
@@ -9,9 +9,9 @@
 #include <map>
 #include <memory>
 
-#include "skunk/address.h"
-#include "skunk/buffer.h"
-#include "skunk/event_loop.h"
+#include "address.h"
+#include "buffer.h"
+#include "event_loop.h"
 namespace zoo {
 namespace skunk {
 
@@ -23,6 +23,12 @@ Channel::Channel(const std::shared_ptr<EventLoop> loop)
 Channel::~Channel(){};
 
 uint32_t Channel::Events() const { return event_flag_; };
+
+void Channel::EnableAccept() {
+  if (!IsAccept()) {
+    event_flag_ |= EPOLLIN;
+  }
+};
 /**
  *  开启与关闭 当前channel所关心的事件集合
  */
@@ -63,11 +69,6 @@ void Channel::HandleEvent() {
   } else if (IsWrite()) {
     ProcessorWrite();
   }
-};
-
-void Channel::SetConnection(const std::shared_ptr<Connection> conn) {
-  this->conn_ = conn;
-  this->server_ = conn->GetTcpServer();
 };
 
 /**
@@ -125,5 +126,6 @@ void Channel::ProcessorError() {
   server_->ErrorHandler(conn_);
   loop_->RemoveChannel(shared_from_this());
 };
+int32_t Channel::Fd() const { return this->conn_->GetSocket()->Fd(); };
 }  // namespace skunk
 }  // namespace zoo

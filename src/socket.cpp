@@ -1,6 +1,4 @@
-#ifndef __SKUNK_SOCKET__
-#define __SKUNK_SOCKET__
-#include "skunk/socket.h"
+#include "socket.h"
 
 #include <fcntl.h>
 #include <netinet/tcp.h>
@@ -8,7 +6,7 @@
 #include <sys/uio.h>
 #include <unistd.h>
 
-#include "skunk/address.h"
+#include "address.h"
 namespace zoo {
 namespace skunk {
 Socket::~Socket() { Close(); }
@@ -34,7 +32,7 @@ int32_t Socket::Accept(IpAddress& peer) {
   return connfd;
 }
 /* 客户端socket调用此函数完成与远程服务端的握手 */
-int32_t Socket::Connect(IpAddress& server_addr) {
+int32_t Socket::Connect(const IpAddress& server_addr) {
   socklen_t addrlen = static_cast<socklen_t>(sizeof(struct sockaddr));
   return ::connect(fd_, server_addr.GetSockAddr(), addrlen);
 }
@@ -162,4 +160,3 @@ int32_t Socket::GetSocketError(const int32_t sockfd) {
 }
 }  // namespace skunk
 }  // namespace zoo
-#endif

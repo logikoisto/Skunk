@@ -1,4 +1,4 @@
-#include "skunk/address.h"
+#include "address.h"
 
 #include <arpa/inet.h>
 
@@ -40,6 +40,14 @@ std::string IpAddress::toString() const {
   }
   ss << ":" << ntohs(addr_.sin_port);
   return ss.str();
+}
+const struct sockaddr* IpAddress::GetSockAddr() const {
+  const void* void_ptr = static_cast<const void*>(&addr_);
+  return static_cast<const struct sockaddr*>(void_ptr);
+};
+struct sockaddr* IpAddress::GetSockAddr() {
+  void* void_ptr = static_cast<void*>(&addr_);
+  return static_cast<struct sockaddr*>(void_ptr);
 }
 
 }  // namespace skunk

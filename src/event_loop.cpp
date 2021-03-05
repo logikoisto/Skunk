@@ -1,11 +1,11 @@
-#include "skunk/event_loop.h"
+#include "event_loop.h"
 
 #include <fcntl.h>
 
 #include <memory>
 
-#include "skunk/channel.h"
-#include "skunk/poller.h"
+#include "channel.h"
+#include "poller.h"
 #include "util/condition.h"
 #include "util/mutex.h"
 namespace zoo {
@@ -82,6 +82,9 @@ void EventLoop::AddConnection(std::shared_ptr<Socket> socket,
     }
     poller_->UpdateChannel(channel);
   }
+};
+void EventLoop::UpdateChannel(const std::shared_ptr<Channel> channel) {
+  poller_->UpdateChannel(channel);
 };
 void EventLoop::RemoveChannel(const std::shared_ptr<Channel> channel) {
   if (poller_->HasChannel(channel)) {

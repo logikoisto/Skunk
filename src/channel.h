@@ -3,9 +3,9 @@
 
 #include <memory>
 
-#include "skunk/connection.h"
-#include "skunk/event_loop.h"
-#include "skunk/tcp_server.h"
+#include "connection.h"
+#include "event_loop.h"
+#include "tcp_server.h"
 
 namespace zoo {
 namespace skunk {
@@ -48,8 +48,6 @@ class Channel : std::enable_shared_from_this<Channel> {
   int32_t Fd() const;
   uint32_t Events() const;
   void SetEvents(uint32_t events);
-
-  void SetConnection(const std::shared_ptr<Connection> conn);
   /**
    * 用于根据 event_flag_ 确定回调哪个用户函数
    */

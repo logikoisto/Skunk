@@ -4,11 +4,11 @@
 #include <memory>
 #include <string>
 
-#include "skunk/buffer.h"
-#include "skunk/channel.h"
-#include "skunk/event_loop.h"
-#include "skunk/socket.h"
-#include "skunk/tcp_server.h"
+#include "buffer.h"
+#include "channel.h"
+#include "event_loop.h"
+#include "socket.h"
+#include "tcp_server.h"
 
 namespace zoo {
 namespace skunk {
@@ -30,7 +30,6 @@ class Connection {
   size_t Send(const void* src, size_t len);
   /* 用于获取底层的socket对象 运行用户对  Connection 进行自定义的设置 */
   std::shared_ptr<Socket> GetSocket();
-  std::shared_ptr<TcpServer> GetTcpServer() const;
 
  private:
   /* 输入与输出buffer的对象 ring buffer 实现 */

@@ -1,12 +1,12 @@
-#include "skunk/connection.h"
+#include "connection.h"
 
 #include <fcntl.h>
 
 #include <memory>
 
-#include "skunk/channel.h"
-#include "skunk/event_loop.h"
-#include "skunk/poller.h"
+#include "channel.h"
+#include "event_loop.h"
+#include "poller.h"
 #include "util/condition.h"
 #include "util/mutex.h"
 namespace zoo {

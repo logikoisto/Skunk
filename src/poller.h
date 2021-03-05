@@ -7,8 +7,8 @@
 #include <memory>
 #include <vector>
 
-#include "skunk/channel.h"
-#include "skunk/event_loop.h"
+#include "channel.h"
+#include "event_loop.h"
 namespace zoo {
 namespace skunk {
 class EventLoop;

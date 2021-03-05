@@ -5,21 +5,22 @@
 #include <memory>
 #include <vector>
 
-#include "skunk/address.h"
-#include "skunk/callbacks.h"
-#include "skunk/connection.h"
-#include "skunk/event_loop.h"
-#include "skunk/socket.h"
+#include "address.h"
+#include "callbacks.h"
+#include "connection.h"
+#include "event_loop.h"
+#include "socket.h"
+#include "timer.h"
 #include "util/condition.h"
 #include "util/mutex.h"
 namespace zoo {
 namespace skunk {
 class Connection;
 class EventLoop;
+class TimerManager;
 /* 对用户暴露的可操作的类 封装各种回调函数以及配置信息 */
 class TcpServer {
  public:
-  using Ptr = std::shared_ptr<TcpServer>;
   /* server 对象的生命周期管理 */
   TcpServer(const IpAddress &addr, int32_t num);
   ~TcpServer();
@@ -30,10 +31,14 @@ class TcpServer {
   std::shared_ptr<EventLoop> GetIOLoopByIdx(int32_t idx);
 
   /* 注册的各种回调函数 */
-  void RegisterConnectionHandler(ConnectionCallback callback);
-  void RegisterMessageHandler(MessageCallback callback);
-  void RegisterCloseHandler(CloseCallback callback);
-  void RegisterErrorHandler(ErrorCallback callback);
+  void RegisterConnectionHandler(
+      std::function<void(const std::shared_ptr<Connection>)> callback);
+  void RegisterMessageHandler(
+      std::function<void(const std::shared_ptr<Connection>)> callback);
+  void RegisterCloseHandler(
+      std::function<void(const std::shared_ptr<Connection>)> callback);
+  void RegisterErrorHandler(
+      std::function<void(const std::shared_ptr<Connection>)> callback);
 
   /* 各种回调函数 */
   void ConnectionHandler(const std::shared_ptr<Connection> conn);
@@ -41,7 +46,11 @@ class TcpServer {
   void CloseHandler(const std::shared_ptr<Connection> conn);
   void ErrorHandler(const std::shared_ptr<Connection> conn);
 
+  /** 定时器 */
+  std::shared_ptr<TimerManager> GetTimerManager();
+
  private:
+  std::shared_ptr<TimerManager> timer_manager_;
   Condition stop_;
   /** running 状态 */
   bool running_;
@@ -56,16 +65,16 @@ class TcpServer {
   /** IO 循环*/
   std::vector<std::shared_ptr<EventLoop>> io_loop_list_;
   /*当连接建立时执行*/
-  ConnectionCallback conn_callback_ =
+  std::function<void(const std::shared_ptr<Connection>)> conn_callback_ =
       [](const std::shared_ptr<Connection>) -> void {};
   /*当socket上有可读事件发生时执行*/
-  MessageCallback message_callback_ =
+  std::function<void(const std::shared_ptr<Connection>)> message_callback_ =
       [](const std::shared_ptr<Connection>) -> void {};
   /*当socket 关闭时执行 */
-  CloseCallback close_callback_ =
+  std::function<void(const std::shared_ptr<Connection>)> close_callback_ =
       [](const std::shared_ptr<Connection>) -> void {};
   /*当 socket处理发生错误时执行 */
-  ErrorCallback error_callback_ =
+  std::function<void(const std::shared_ptr<Connection>)> error_callback_ =
       [](const std::shared_ptr<Connection>) -> void {};
 };
 }  // namespace skunk

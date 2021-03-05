@@ -1,26 +1,26 @@
-#ifndef __SKUNK_TCP_SERVER__
-#define __SKUNK_TCP_SERVER__
-
-#include "skunk/tcp_server.h"
+#include "tcp_server.h"
 
 #include <memory>
 
-#include "skunk/connection.h"
-#include "skunk/event_loop.h"
-#include "skunk/socket.h"
+#include "connection.h"
+#include "event_loop.h"
+#include "socket.h"
 namespace zoo {
 namespace skunk {
 TcpServer::TcpServer(const IpAddress &addr, int32_t num)
     : socket_(Socket::CreateTcp()),
-      main_loop_(EventLoop::CreateEventLoop(true)),
+      main_loop_(std::make_shared<EventLoop>(true)),
       num_(num),
       running_(true),
-      stop_(mutex_) {
+      stop_(mutex_),
+      timer_manager_() {
+  socket_->Bind(addr);
   main_loop_->Start();
   for (int32_t i = 0; i < num_; i++) {
-    io_loop_list_.push_back(EventLoop::CreateEventLoop(false));
+    io_loop_list_.push_back(std::make_shared<EventLoop>(false));
     io_loop_list_[i]->Start();
   }
+  timer_manager_->Start();
 }
 TcpServer::~TcpServer() {
   // 释放 vector的空间
@@ -28,7 +28,12 @@ TcpServer::~TcpServer() {
     std::vector<std::shared_ptr<EventLoop>> tmp;
     tmp.swap(io_loop_list_);
   }
+  timer_manager_->Stop();
 }
+std::shared_ptr<TimerManager> TcpServer::GetTimerManager() {
+  return timer_manager_;
+};
+
 /* 注册的各种回调函数 */
 void TcpServer::RegisterConnectionHandler(ConnectionCallback callback) {
   conn_callback_ = callback;
@@ -84,4 +89,3 @@ void TcpServer::ErrorHandler(const std::shared_ptr<Connection> conn) {
 };
 }  // namespace skunk
 }  // namespace zoo
-#endif  // __SKUNK_TCP_SERVER__

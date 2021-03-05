@@ -16,14 +16,14 @@ class IpAddress final {
    */
   IpAddress(std::string ip, in_port_t port);
   explicit IpAddress(in_port_t port = 0);
-  explicit IpAddress(const struct sockaddr_in &addr);
+  explicit IpAddress(const struct sockaddr_in& addr);
 
   /**
    * default dtor, copy ctor, assign operation is ok
    */
   std::string ToString() const;
-  const struct sockaddr *GetSockAddr() const;
-  struct sockaddr *GetSockAddr();
+  const struct sockaddr* GetSockAddr() const;
+  struct sockaddr* GetSockAddr();
   std::string toString() const;
 
  private:

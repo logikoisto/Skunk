@@ -4,9 +4,9 @@
 #include <map>
 #include <memory>
 
-#include "skunk/connection.h"
-#include "skunk/poller.h"
-#include "skunk/socket.h"
+#include "connection.h"
+#include "poller.h"
+#include "socket.h"
 #include "util/condition.h"
 #include "util/thread.h"
 namespace zoo {
@@ -35,7 +35,7 @@ class EventLoop : std::enable_shared_from_this<EventLoop> {
   static std::shared_ptr<EventLoop> CreateEventLoop(bool isMainLoop);
   void AddConnection(std::shared_ptr<Socket> socket, Event event);
   void RemoveChannel(const std::shared_ptr<Channel> channel);
-
+  void UpdateChannel(const std::shared_ptr<Channel> channel);
   // 标记是否为一个主事件循环
   bool is_main_loop_;
 
